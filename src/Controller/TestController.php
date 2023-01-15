@@ -23,21 +23,19 @@ class TestController extends AbstractController
     #[Route('/', methods: ['GET'], name: 'test_index')]
     public function index(Request $request)
     {
-        // TODO - Make sure `TrustServerCertificates` is not true for production
         $connectionParams = [
             'dbname' => 'TestDb',
-            'user' => 'sa',
-            'password' => 'Pass@word123',
-            'host' => 'sqlserver',
-            'driver' => 'sqlsrv',
-            'driverOptions' => [
-                'TrustServerCertificate' => '1',
-            ],
+            'user' => 'postgres',
+            'password' => 'example',
+            'host' => 'db',
+            'port' => '5432',
+            'driver' => 'pdo_pgsql',
         ];
         $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
-        $sql = 'SELECT * FROM TestTable';
+        $sql = 'SELECT * FROM testing_purposes';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
+
 
         return new Response(json_encode($resultSet->fetchAllAssociative()), Response::HTTP_OK);
     }

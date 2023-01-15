@@ -46,9 +46,10 @@ RUN set -eux; \
     	pcntl \
     	pdo_sqlsrv \
     	sqlsrv \
+    	pdo_pgsql \
     ;
 
-RUN apk add --update bash gnupg less libpng-dev libzip-dev su-exec unzip
+RUN apk add --update bash gnupg less libpng-dev libzip-dev su-exec unzip php-pgsql
 
 RUN curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/msodbcsql18_18.1.2.1-1_amd64.apk \
     && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/mssql-tools18_18.1.1.1-1_amd64.apk \
@@ -122,7 +123,9 @@ RUN rm $PHP_INI_DIR/conf.d/app.prod.ini; \
 COPY --link docker/php/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
 RUN set -eux; \
-	install-php-extensions xdebug
+	install-php-extensions \
+    	xdebug \
+	;
 
 RUN rm -f .env.local.php
 
@@ -144,5 +147,5 @@ COPY --from=app_caddy_builder --link /usr/bin/caddy /usr/bin/caddy
 COPY --from=app_php --link /srv/app/public public/
 COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
-# SQL Server image
-FROM mcr.microsoft.com/mssql/server:2022-latest AS app_sqlserver
+## SQL Server image
+#FROM mcr.microsoft.com/mssql/server:2022-latest AS app_sqlserver

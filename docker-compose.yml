@@ -61,24 +61,62 @@ services:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
   
-  sqlserver:
-    build:
-      context: .
-      target: app_sqlserver
-    depends_on:
-      - php
+#  sqlserver:
+#    build:
+#      context: .
+#      target: app_sqlserver
+#    depends_on:
+#      - php
+#    environment:
+#      # TODO - Change password to use secret
+#      - MSSQL_SA_PASSWORD=Pass@word123
+#      - ACCEPT_EULA=Y
+#      - MSSQL_PID=Developer
+#    restart: unless-stopped
+#    ports:
+#      - "1433:1433"
+        
+  db:
+    container_name: db_container
+    image: postgres
     environment:
-      # TODO - Change password to use secret
-      - MSSQL_SA_PASSWORD=Pass@word123
-      - ACCEPT_EULA=Y
-      - MSSQL_PID=Developer
-    restart: unless-stopped
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-example}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
     ports:
-      - "1433:1433"
+      - "5432:5432"
+#    networks:
+#      - postgres
+    restart: unless-stopped
+      
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+#    networks:
+#      - postgres
+    restart: unless-stopped
+
+# Copied from https://github.com/khezen/compose-postgres
+# Having networks made it so I couldn't connect to the database from the php application
+#networks:
+#  postgres:
+#    driver: bridge
 
 volumes:
   php_socket:
   caddy_data:
   caddy_config:
+  postgres:
+  pgadmin:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
