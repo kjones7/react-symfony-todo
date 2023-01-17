@@ -23,20 +23,21 @@ class TestController extends AbstractController
     #[Route('/', methods: ['GET'], name: 'test_index')]
     public function index(Request $request)
     {
-        $connectionParams = [
-            'dbname' => 'TestDb',
-            'user' => 'postgres',
-            'password' => 'example',
-            'host' => 'db',
-            'port' => '5432',
-            'driver' => 'pdo_pgsql',
-        ];
-        $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
-        $sql = 'SELECT * FROM testing_purposes';
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery();
+//        $connectionParams = [
+//            'dbname' => 'TestDb',
+//            'user' => 'postgres',
+//            'password' => 'example',
+//            'host' => 'db',
+//            'port' => '5432',
+//            'driver' => 'pdo_pgsql',
+//        ];
+//        $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+//        $sql = 'SELECT * FROM testing_purposes';
+//        $stmt = $conn->prepare($sql);
+//        $resultSet = $stmt->executeQuery();
 
 
-        return new Response(json_encode($resultSet->fetchAllAssociative()), Response::HTTP_OK);
+//        return new Response(json_encode($resultSet->fetchAllAssociative()), Response::HTTP_OK);
+        return new Response('Hello World');
     }
 }
