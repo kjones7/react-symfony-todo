@@ -77,8 +77,9 @@ services:
 #      - "1433:1433"
         
   db:
-    container_name: db_container
-    image: postgres
+    build:
+      context: .
+      target: app_db
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-example}

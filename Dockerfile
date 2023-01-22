@@ -149,3 +149,6 @@ COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
 ## SQL Server image
 #FROM mcr.microsoft.com/mssql/server:2022-latest AS app_sqlserver
+
+FROM postgres:15.1-alpine AS app_db
+COPY init.sql /docker-entrypoint-initdb.d/

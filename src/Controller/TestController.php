@@ -24,19 +24,19 @@ class TestController extends AbstractController
     public function index(Request $request)
     {
         $connectionParams = [
-            'dbname' => 'TestDb',
-            'user' => 'postgres',
-            'password' => 'example',
+            'dbname' => 'todo_app',
+            'user' => 'todo_user',
+            'password' => 'todo_user_password',
             'host' => 'db',
             'port' => '5432',
             'driver' => 'pdo_pgsql',
         ];
         $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
-        $sql = 'SELECT * FROM testing_purposes';
+        $sql = 'SELECT 1';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
 
 
-        return new Response(json_encode($resultSet->fetchAllAssociative()), Response::HTTP_OK);
+        return new Response(json_encode($resultSet->fetchFirstColumn()), Response::HTTP_OK);
     }
 }
