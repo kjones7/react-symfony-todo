@@ -37,6 +37,6 @@ class TestController extends AbstractController
         $resultSet = $stmt->executeQuery();
 
 
-        return new Response(json_encode($resultSet->fetchFirstColumn()), Response::HTTP_OK);
+        return new Response('The database is working', Response::HTTP_OK);
     }
 }
