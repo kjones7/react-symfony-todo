@@ -33,33 +33,10 @@ RUN apk add --no-cache \
 
 RUN set -eux; \
     install-php-extensions \
-    	intl \
-    	zip \
-    	apcu \
-		opcache \
-    	bcmath \
-    	ds \
-    	exif \
-    	gd \
-    	intl \
-    	opcache \
-    	pcntl \
-    	pdo_sqlsrv \
-    	sqlsrv \
     	pdo_pgsql \
     ;
 
-RUN apk add --update bash gnupg less libpng-dev libzip-dev su-exec unzip php-pgsql
-
-RUN curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/msodbcsql18_18.1.2.1-1_amd64.apk \
-    && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/mssql-tools18_18.1.1.1-1_amd64.apk \
-    && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/msodbcsql18_18.1.2.1-1_amd64.sig \
-    && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/mssql-tools18_18.1.1.1-1_amd64.sig \
-    && curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import - \
-    && gpg --verify msodbcsql18_18.1.2.1-1_amd64.sig msodbcsql18_18.1.2.1-1_amd64.apk \
-    && gpg --verify mssql-tools18_18.1.1.1-1_amd64.sig mssql-tools18_18.1.1.1-1_amd64.apk \
-    && apk add --allow-untrusted msodbcsql18_18.1.2.1-1_amd64.apk mssql-tools18_18.1.1.1-1_amd64.apk \
-    && rm *.apk *.sig
+RUN apk add --update php-pgsql
 
 ###> recipes ###
 ###< recipes ###
@@ -110,7 +87,6 @@ RUN set -eux; \
     fi
 
 # Dev image
-# This runs
 FROM app_php AS app_php_dev
 
 ENV APP_ENV=dev XDEBUG_MODE=off
@@ -147,8 +123,6 @@ COPY --from=app_caddy_builder --link /usr/bin/caddy /usr/bin/caddy
 COPY --from=app_php --link /srv/app/public public/
 COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
-## SQL Server image
-#FROM mcr.microsoft.com/mssql/server:2022-latest AS app_sqlserver
-
+# Postgres image
 FROM postgres:15.1-alpine AS app_db
 COPY init.sql /docker-entrypoint-initdb.d/

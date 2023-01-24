@@ -60,21 +60,6 @@ services:
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
-  
-#  sqlserver:
-#    build:
-#      context: .
-#      target: app_sqlserver
-#    depends_on:
-#      - php
-#    environment:
-#      # TODO - Change password to use secret
-#      - MSSQL_SA_PASSWORD=Pass@word123
-#      - ACCEPT_EULA=Y
-#      - MSSQL_PID=Developer
-#    restart: unless-stopped
-#    ports:
-#      - "1433:1433"
         
   db:
     build:
