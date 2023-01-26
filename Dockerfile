@@ -125,4 +125,4 @@ COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
 # Postgres image
 FROM postgres:15.1-alpine AS app_db
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY postgres_init.sh /docker-entrypoint-initdb.d/
