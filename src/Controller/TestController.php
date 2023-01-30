@@ -26,7 +26,7 @@ class TestController extends AbstractController
         $connectionParams = [
             'dbname' => 'todo_app',
             'user' => 'todo_user',
-            'password' => 'todo_user_password',
+            'password' => getenv('TODO_USER_PW'),
             'host' => 'db',
             'port' => '5432',
             'driver' => 'pdo_pgsql',
