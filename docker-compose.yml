@@ -78,21 +78,6 @@ services:
 #    networks:
 #      - postgres
     restart: unless-stopped
-      
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
-#    networks:
-#      - postgres
-    restart: unless-stopped
 
 # Copied from https://github.com/khezen/compose-postgres
 # Having networks made it so I couldn't connect to the database from the php application
@@ -105,6 +90,5 @@ volumes:
   caddy_data:
   caddy_config:
   postgres:
-  pgadmin:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
