@@ -36,7 +36,7 @@ RUN set -eux; \
     	pdo_pgsql \
     ;
 
-RUN apk add --update php-pgsql
+RUN apk add --update php-pgsql nodejs npm
 
 ###> recipes ###
 ###< recipes ###
@@ -72,6 +72,8 @@ RUN set -eux; \
 		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
 		composer clear-cache; \
     fi
+
+RUN npm install
 
 # copy sources
 COPY --link  . .

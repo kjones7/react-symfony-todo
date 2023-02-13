@@ -36,7 +36,8 @@ class TestController extends AbstractController
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery();
 
-
-        return new Response('The database is working', Response::HTTP_OK);
+        return $this->render('test.html.twig', [
+            'message' => 'The database is working',
+        ]);
     }
 }
