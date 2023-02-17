@@ -23,13 +23,16 @@ class TestController extends AbstractController
     #[Route('/', methods: ['GET'], name: 'test_index')]
     public function index(Request $request)
     {
+        // TODO - Make sure `TrustServerCertificates` is not true for production
         $connectionParams = [
-            'dbname' => 'todo_app',
-            'user' => 'todo_user',
-            'password' => getenv('TODO_USER_PW'),
+            'dbname' => 'master',
+            'user' => 'sa',
+            'password' => 'Pass@word123',
             'host' => 'db',
-            'port' => '5432',
-            'driver' => 'pdo_pgsql',
+            'driver' => 'sqlsrv',
+            'driverOptions' => [
+                'TrustServerCertificate' => '1',
+            ],
         ];
         $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
         $sql = 'SELECT 1';

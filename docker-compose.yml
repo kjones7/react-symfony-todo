@@ -8,6 +8,8 @@ services:
       args:
         SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         STABILITY: ${STABILITY:-stable}
+    depends_on:
+      - db
     restart: unless-stopped
     # Volumes allow you to share data between the host and a container
     volumes:
@@ -61,23 +63,19 @@ services:
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
-        
+
   db:
     build:
       context: .
       target: app_db
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      TODO_USER_PW: ${TODO_USER_PW}
-      PGDATA: /data/postgres
-    volumes:
-      - postgres:/data/postgres
-    ports:
-      - "5432:5432"
-#    networks:
-#      - postgres
+      # TODO - Change password to use secret
+      - MSSQL_SA_PASSWORD=Pass@word123
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
     restart: unless-stopped
+    ports:
+      - "1433:1433"
 
 # Copied from https://github.com/khezen/compose-postgres
 # Having networks made it so I couldn't connect to the database from the php application

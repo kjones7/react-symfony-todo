@@ -33,10 +33,22 @@ RUN apk add --no-cache \
 
 RUN set -eux; \
     install-php-extensions \
-    	pdo_pgsql \
+    	pdo_sqlsrv \
+    	sqlsrv \
     ;
 
-RUN apk add --update php-pgsql nodejs npm
+RUN apk add --update bash gnupg nodejs npm
+
+# Download SQL Server dependencies
+RUN curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/msodbcsql18_18.1.2.1-1_amd64.apk \
+    && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/mssql-tools18_18.1.1.1-1_amd64.apk \
+    && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/msodbcsql18_18.1.2.1-1_amd64.sig \
+    && curl -O https://download.microsoft.com/download/8/6/8/868e5fc4-7bfe-494d-8f9d-115cbcdb52ae/mssql-tools18_18.1.1.1-1_amd64.sig \
+    && curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import - \
+    && gpg --verify msodbcsql18_18.1.2.1-1_amd64.sig msodbcsql18_18.1.2.1-1_amd64.apk \
+    && gpg --verify mssql-tools18_18.1.1.1-1_amd64.sig mssql-tools18_18.1.1.1-1_amd64.apk \
+    && apk add --allow-untrusted msodbcsql18_18.1.2.1-1_amd64.apk mssql-tools18_18.1.1.1-1_amd64.apk \
+    && rm *.apk *.sig
 
 ###> recipes ###
 ###< recipes ###
@@ -66,7 +78,7 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 COPY --from=composer/composer:2-bin --link /composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY composer.* symfony.* ./
+COPY composer.* symfony.* package.json package-lock.json ./
 RUN set -eux; \
     if [ -f composer.json ]; then \
 		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
@@ -125,6 +137,5 @@ COPY --from=app_caddy_builder --link /usr/bin/caddy /usr/bin/caddy
 COPY --from=app_php --link /srv/app/public public/
 COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
-# Postgres image
-FROM postgres:15.1-alpine AS app_db
-COPY postgres_init.sh /docker-entrypoint-initdb.d/
+# SQL Server image
+FROM mcr.microsoft.com/mssql/server:2022-latest AS app_db
