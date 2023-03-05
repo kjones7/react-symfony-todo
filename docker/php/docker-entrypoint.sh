@@ -1,7 +1,18 @@
 #!/bin/sh
+# Helpful documentation:
+# - `[]` in if statements: https://www.man7.org/linux/man-pages/man1/test.1.html
+
+# Tells shell to exit immediately if any command returns a non-zero exit code (failure)
 set -e
 
-# first arg is `-f` or `--some-option`
+# Checks if the first argument passed to the script starts with a hyphen (-), which is typically used to indicate
+# command-line options. If it does, then it assumes that the user intends to run php-fpm and passes all the arguments
+# to that command
+# Ex: Checks if first arg is `-f` or `--some-option`
+# Other notes:
+#     - ${1#-} is a parameter expansion that removes any leading hyphen from the first argument $1
+#     - I think this code block is needed in case `./docker-entrypoint.sh -f` is ever used. Then this code would change
+#	    the positional parameters would be changed to be equivalent to running `./docker-entrypoint.sh php-fpm -f`
 if [ "${1#-}" != "$1" ]; then
 	set -- php-fpm "$@"
 fi
@@ -9,6 +20,9 @@ fi
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	# Install the project the first time PHP is started
 	# After the installation, the following block can be deleted
+
+	# Checks if composer.json exists (i.e. checks if this is the first time running the project)
+	# See https://www.man7.org/linux/man-pages/man1/test.1.html
 	if [ ! -f composer.json ]; then
 		CREATION=1
 
