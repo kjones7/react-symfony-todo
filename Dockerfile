@@ -68,7 +68,9 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 COPY --link docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+# Run docker-entrypoint.sh on container start
 ENTRYPOINT ["docker-entrypoint"]
+# Provide "php-fpm" as an argument to docker-entrypoint.sh command
 CMD ["php-fpm"]
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
