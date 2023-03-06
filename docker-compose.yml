@@ -64,19 +64,6 @@ services:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
 
-  db:
-    build:
-      context: .
-      target: app_db
-    environment:
-      # TODO - Change password to use secret
-      - MSSQL_SA_PASSWORD=Pass@word123
-      - ACCEPT_EULA=Y
-      - MSSQL_PID=Developer
-    restart: unless-stopped
-    ports:
-      - "1433:1433"
-
 # Copied from https://github.com/khezen/compose-postgres
 # Having networks made it so I couldn't connect to the database from the php application
 #networks:
