@@ -141,3 +141,8 @@ COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
 # SQL Server image
 FROM mcr.microsoft.com/mssql/server:2022-latest AS app_db
+
+# Make `mssql` user owner of `/data` directory
+USER root
+RUN mkdir -p /var/opt/mssql/data && chown -R mssql /var/opt/mssql/data
+USER mssql

@@ -50,8 +50,11 @@ services:
     restart: unless-stopped
     ports:
       - "1433:1433"
+    volumes:
+      - db_data:/var/opt/mssql/data
     
 volumes:
+  db_data:
   pgadmin:
 
 ###> symfony/mercure-bundle ###
