@@ -11,4 +11,10 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
-console.log('Test message');
+document.querySelector('button').addEventListener('click', function() {
+  var text = document.querySelector('input').value;
+  var li = document.createElement('li');
+  li.innerText = text;
+  document.querySelector('ul').append(li);
+  document.querySelector('input').value = '';
+});
