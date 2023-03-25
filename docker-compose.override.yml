@@ -22,21 +22,6 @@ services:
     volumes:
       - ./public:/srv/app/public:ro
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-        
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
-    #    networks:
-    #      - postgres
-    restart: unless-stopped
 
   db:
     build:
@@ -55,7 +40,6 @@ services:
     
 volumes:
   db_data:
-  pgadmin:
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
