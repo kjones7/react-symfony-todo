@@ -74,6 +74,6 @@ volumes:
   php_socket:
   caddy_data:
   caddy_config:
-  postgres:
+#  postgres:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
