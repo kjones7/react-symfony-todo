@@ -79,10 +79,9 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 fi
 
-# Watch and rebundle JS on change for dev environment
-if [ "$APP_ENV" == 'dev' ]; then
-	npm run watch &
-fi
+#if [ "$APP_ENV" == 'dev' ]; then
+	# Execute commands only in dev environment
+#fi
 
 # run the official Docker PHP entrypoint script with any arguments passed to the docker-entrypoint.sh script
 exec docker-php-entrypoint "$@"
