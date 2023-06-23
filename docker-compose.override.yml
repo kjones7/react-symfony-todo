@@ -37,6 +37,12 @@ services:
       - "1433:1433"
     volumes:
       - db_data:/var/opt/mssql/data
+
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "5432"
+###< doctrine/doctrine-bundle ###
     
 volumes:
   db_data:
