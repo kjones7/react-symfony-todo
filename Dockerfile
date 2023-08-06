@@ -35,6 +35,8 @@ RUN set -eux; \
     install-php-extensions \
     	pdo_sqlsrv \
     	sqlsrv \
+    	opcache \
+    	apcu \
     ;
 
 RUN apk add --update bash gnupg nodejs npm
