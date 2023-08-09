@@ -8,9 +8,10 @@ services:
     volumes:
       - ./:/srv/app
       - ./docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
-      # If you develop on Mac or Windows you can remove the vendor/ directory
-      #  from the bind-mount for better performance by enabling the next line:
-      #- /srv/app/vendor
+      # This is a "volume exclusion." By specifying a path that already exists within a bind mount, you're essentially
+      # telling Docker to exclude this directory from the bind-mount and let the container handle it on its own
+      # filesystem. This improves performance by avoiding the I/O synchronization overhead for this directory.
+      - /srv/app/vendor
     environment:
       # See https://xdebug.org/docs/all_settings#mode 
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
