@@ -1,13 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
-import { Col, Container, Row, Form, Button, Card } from "react-bootstrap";
+import {Col, Container, Row, Form, Button, Card, InputGroup} from "react-bootstrap";
 
 function NoteCard({ note }: { note: string }) {
   return (
-    <Card style={{ width: '18rem', marginBottom: '1rem' }}>
+    <Card style={{ width: '18rem', marginBottom: '1rem' }} className="shadow">
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
         <Card.Text>{note}</Card.Text>
-        <Button variant="primary">Go somewhere</Button>
       </Card.Body>
     </Card>
   );
@@ -28,23 +26,23 @@ function Todo() {
   }
 
   return (
-    <Container>
-      <Row>
+    <Container fluid className="ps-5 pe-5">
+      <Row className="justify-content-center mt-5 mb-3">
         <Col xs={3}>
-          <Form.Control
-            type="text"
-            placeholder="Write a note..."
-            value={noteToAdd}
-            onChange={handleNoteToAddChange}
-          />
-        </Col>
-        <Col xs={3}>
-          <Button variant="primary" onClick={handleAddBtnClick}>
-            Add
-          </Button>
+          <InputGroup>
+            <Form.Control
+              type="text"
+              placeholder="Write a note..."
+              value={noteToAdd}
+              onChange={handleNoteToAddChange}
+            />
+            <Button variant="primary" onClick={handleAddBtnClick}>
+              Add
+            </Button>
+          </InputGroup>
         </Col>
       </Row>
-      <Row>
+      <Row className="gap-3">
         {notes.map((note, index) => (
           <NoteCard key={index} note={note} />
         ))}
