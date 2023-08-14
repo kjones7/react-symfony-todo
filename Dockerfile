@@ -70,9 +70,7 @@ RUN chmod +x /usr/local/bin/docker-healthcheck
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
 COPY --link docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-COPY --link docker/php/wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod +x /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/wait-for-it
 
 # Run docker-entrypoint.sh on container start
 ENTRYPOINT ["docker-entrypoint"]
