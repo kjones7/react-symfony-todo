@@ -60,7 +60,12 @@ Encore
     //.enableSassLoader()
 
     // uncomment if you use TypeScript
-    .enableTypeScriptLoader()
+    // .enableTypeScriptLoader()
+    // .enableForkedTypeScriptTypesChecking()
+    .enableBabelTypeScriptPreset({
+      isTSX: true,
+      allExtensions: true
+    })
 
     // uncomment if you use React
     .enableReactPreset()
