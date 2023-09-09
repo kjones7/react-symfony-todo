@@ -1,3 +1,14 @@
 body {
     font-family: 'Arial', sans-serif;
 }
+
+/*
+ * Can be used to remove the caret from a Bootstrap Dropdown component element.
+ * Just add the `.caret-off` class to the `Dropdown.Toggle` element.
+ */
+.caret-off::before {
+    display: none;
+}
+.caret-off::after {
+    display: none;
+}

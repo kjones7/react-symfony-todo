@@ -1,12 +1,28 @@
 import React, { ChangeEvent, useState } from "react";
-import {Col, Container, Row, Form, Button, Card, InputGroup} from "react-bootstrap";
+import {Col, Container, Row, Form, Button, Card, InputGroup, Dropdown} from "react-bootstrap";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
-function NoteCard({ note }: { note: string }) {
+function NoteCard({ id, note, deleteNoteHandler }: { id: number, note: string, deleteNoteHandler: (key: number) => void }) {
   return (
     <Card style={{marginBottom: '1rem'}} className="shadow border-light-subtle">
       <Card.Body>
         <Card.Text>{note}</Card.Text>
       </Card.Body>
+      <Card.Footer>
+          <Dropdown>
+            <Dropdown.Toggle variant="link" className="float-end caret-off text-decoration-none text-body">
+              <i className="bi-three-dots-vertical card-footer-btn"></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                  href="#"
+                  onClick={() => deleteNoteHandler(id)}
+              >
+                Delete
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+      </Card.Footer>
     </Card>
   );
 }
@@ -23,6 +39,16 @@ function Todo() {
 
   function handleNoteToAddChange(event: ChangeEvent<HTMLInputElement>) {
     setNoteToAdd(event.target.value);
+  }
+
+  function deleteNote(key: number) {
+    var newNotes : string[] = [];
+    notes.forEach((note, index) => {
+      if (index !== key) {
+        newNotes.push(note)
+      }
+    });
+    setNotes(newNotes);
   }
 
   return (
@@ -45,7 +71,12 @@ function Todo() {
       <Row>
         {notes.map((note, index) => (
           <Col xl={2} lg={3} md={6}>
-            <NoteCard key={index} note={note} />
+            <NoteCard
+                key={index}
+                id={index}
+                note={note}
+                deleteNoteHandler={deleteNote}
+            />
           </Col>
         ))}
       </Row>
