@@ -33,6 +33,7 @@ function Todo() {
 
   function handleAddBtnClick() {
     if (noteToAdd.trim() === '') return; // Prevent adding empty notes
+    sendCreateNoteRequest(noteToAdd);
     setNotes([...notes, noteToAdd]);
     setNoteToAdd('');
   }
@@ -49,6 +50,18 @@ function Todo() {
       }
     });
     setNotes(newNotes);
+  }
+
+  async function sendCreateNoteRequest(note : string) {
+    const response = await fetch('/api/note/create', {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({note}),
+    });
+    return response.json();
   }
 
   return (
