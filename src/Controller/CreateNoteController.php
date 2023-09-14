@@ -15,7 +15,7 @@ class CreateNoteController extends AbstractController
     public function saveNote(Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
-        $textContent = $data['note'] ?? '';
+        $textContent = $data['content'] ?? '';
 
         if (!$textContent) {
             $response = $this->json(['success' => false, 'message' => 'Text is empty.']);

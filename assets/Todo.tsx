@@ -2,11 +2,11 @@ import React, { ChangeEvent, useState } from "react";
 import {Col, Container, Row, Form, Button, Card, InputGroup, Dropdown} from "react-bootstrap";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-function NoteCard({ id, note, deleteNoteHandler }: { id: number, note: string, deleteNoteHandler: (key: number) => void }) {
+function NoteCard({ id, note, deleteNoteHandler }: { id: number, note: Note, deleteNoteHandler: (key: number) => void }) {
   return (
     <Card style={{marginBottom: '1rem'}} className="shadow border-light-subtle">
       <Card.Body>
-        <Card.Text>{note}</Card.Text>
+        <Card.Text>{note.content}</Card.Text>
       </Card.Body>
       <Card.Footer>
           <Dropdown>
@@ -29,12 +29,17 @@ function NoteCard({ id, note, deleteNoteHandler }: { id: number, note: string, d
 
 function Todo() {
   const [noteToAdd, setNoteToAdd] = useState('');
-  const [notes, setNotes] = useState<string[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   function handleAddBtnClick() {
     if (noteToAdd.trim() === '') return; // Prevent adding empty notes
-    sendCreateNoteRequest(noteToAdd);
-    setNotes([...notes, noteToAdd]);
+    const tempID = Math.random();
+    const newNote : Note = {
+      id: tempID,
+      content: noteToAdd,
+    };
+    sendCreateNoteRequest(newNote);
+    setNotes([...notes, newNote]);
     setNoteToAdd('');
   }
 
@@ -43,23 +48,23 @@ function Todo() {
   }
 
   function deleteNote(key: number) {
-    var newNotes : string[] = [];
+    var newNotes : Note[] = [];
     notes.forEach((note, index) => {
-      if (index !== key) {
+      if (note.id !== key) {
         newNotes.push(note)
       }
     });
     setNotes(newNotes);
   }
 
-  async function sendCreateNoteRequest(note : string) {
+  async function sendCreateNoteRequest(note : Note) {
     const response = await fetch('/api/note/create', {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({note}),
+      body: JSON.stringify(note),
     });
     return response.json();
   }
@@ -83,10 +88,10 @@ function Todo() {
       </Row>
       <Row>
         {notes.map((note, index) => (
-          <Col xl={2} lg={3} md={6}>
+          <Col xl={2} lg={3} md={6} key={index}>
             <NoteCard
-                key={index}
-                id={index}
+                key={note.id}
+                id={note.id}
                 note={note}
                 deleteNoteHandler={deleteNote}
             />
@@ -96,5 +101,10 @@ function Todo() {
     </Container>
   );
 }
+
+type Note = {
+  id: number,
+  content: string,
+};
 
 export default Todo;
