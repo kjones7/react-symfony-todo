@@ -27,7 +27,7 @@ class CreateNoteController extends AbstractController
         $em->persist($noteEntity);
         $em->flush();
 
-        $response = $this->json(['success' => true]);
+        $response = $this->json(['success' => true, 'id' => $noteEntity->getId()]);
         return $response;
     }
 }

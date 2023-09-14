@@ -38,9 +38,15 @@ function Todo() {
       id: tempID,
       content: noteToAdd,
     };
-    sendCreateNoteRequest(newNote);
-    setNotes([...notes, newNote]);
+    setNotes(prevNotes => [...prevNotes, newNote]);
     setNoteToAdd('');
+    sendCreateNoteRequest(newNote).then((response) => {
+      setNotes(prevNotes => {
+        return prevNotes.map(note =>
+          note.id === tempID ? { ...note, id: response.id } : note
+        );
+      });
+    });
   }
 
   function handleNoteToAddChange(event: ChangeEvent<HTMLInputElement>) {
