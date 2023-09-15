@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Note;
+use App\Repository\NoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,5 +30,12 @@ class CreateNoteController extends AbstractController
 
         $response = $this->json(['success' => true, 'id' => $noteEntity->getId()]);
         return $response;
+    }
+
+    #[Route('api/notes', name: 'app_read_note', methods: ['GET'])]
+    public function read(NoteRepository $noteRepository): Response
+    {
+        $notes = $noteRepository->findAll();
+        return $this->json($notes);
     }
 }

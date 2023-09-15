@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {Col, Container, Row, Form, Button, Card, InputGroup, Dropdown} from "react-bootstrap";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -30,6 +30,16 @@ function NoteCard({ id, note, deleteNoteHandler }: { id: number, note: Note, del
 function Todo() {
   const [noteToAdd, setNoteToAdd] = useState('');
   const [notes, setNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    fetchNotes()
+      .then((response) => setNotes(response));
+  }, []);
+
+  async function fetchNotes() {
+    const response = await fetch('/api/notes');
+    return response.json();
+  }
 
   function handleAddBtnClick() {
     if (noteToAdd.trim() === '') return; // Prevent adding empty notes
