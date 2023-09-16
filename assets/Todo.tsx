@@ -74,7 +74,7 @@ function Todo() {
   }
 
   async function sendCreateNoteRequest(note : Note) {
-    const response = await fetch('/api/note/create', {
+    const response = await fetch('/api/notes', {
       method: "POST",
       mode: "cors",
       headers: {
