@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NoteController extends AbstractController
 {
-    #[Route('api/notes', name: 'app_create_note', methods: ['POST'])]
+    #[Route('api/v1/notes', name: 'app_create_note', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -32,7 +32,7 @@ class NoteController extends AbstractController
         return $response;
     }
 
-    #[Route('api/notes', name: 'app_read_note', methods: ['GET'])]
+    #[Route('api/v1/notes', name: 'app_read_note', methods: ['GET'])]
     public function read(NoteRepository $noteRepository): Response
     {
         $notes = $noteRepository->findAll();

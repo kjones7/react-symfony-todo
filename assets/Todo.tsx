@@ -37,7 +37,7 @@ function Todo() {
   }, []);
 
   async function fetchNotes() {
-    const response = await fetch('/api/notes');
+    const response = await fetch('/api/v1/notes');
     return response.json();
   }
 
@@ -74,7 +74,7 @@ function Todo() {
   }
 
   async function sendCreateNoteRequest(note : Note) {
-    const response = await fetch('/api/notes', {
+    const response = await fetch('/api/v1/notes', {
       method: "POST",
       mode: "cors",
       headers: {
