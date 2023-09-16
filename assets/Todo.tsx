@@ -85,6 +85,12 @@ function Todo() {
     return response.json();
   }
 
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) : void {
+    if (event.key === 'Enter') {
+      handleAddBtnClick();
+    }
+  }
+
   return (
     <Container fluid className="ps-5 pe-5">
       <Row className="justify-content-center mt-5 mb-3">
@@ -95,6 +101,7 @@ function Todo() {
               placeholder="Write a note..."
               value={noteToAdd}
               onChange={handleNoteToAddChange}
+              onKeyDown={handleKeyDown}
             />
             <Button variant="primary" onClick={handleAddBtnClick}>
               Add
