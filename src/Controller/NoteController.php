@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CreateNoteController extends AbstractController
+class NoteController extends AbstractController
 {
     #[Route('api/note/create', name: 'app_create_note', methods: ['POST'])]
     public function saveNote(Request $request, EntityManagerInterface $em): Response
