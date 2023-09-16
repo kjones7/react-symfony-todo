@@ -43,6 +43,12 @@ services:
 
 ###> doctrine/doctrine-bundle ###
 ###< doctrine/doctrine-bundle ###
+
+###> symfony/mailer ###
+#  mailer:
+#    image: schickling/mailcatcher
+#    ports: ["1025", "1080"]
+###< symfony/mailer ###
     
 volumes:
   db_data:
