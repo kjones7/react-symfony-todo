@@ -1,4 +1,4 @@
-type Note = {
-  id: number,
-  content: string,
-};
+interface Note {
+  id: number
+  content: string
+}

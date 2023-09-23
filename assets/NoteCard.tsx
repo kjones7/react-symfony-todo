@@ -1,13 +1,13 @@
-import {Card, Dropdown} from "react-bootstrap";
-import React from "react";
+import { Card, Dropdown } from 'react-bootstrap'
+import React from 'react'
 
-export function NoteCard({id, note, deleteNoteHandler}: {
-  id: number,
-  note: Note,
+export function NoteCard ({ id, note, deleteNoteHandler }: {
+  id: number
+  note: Note
   deleteNoteHandler: (key: number) => void
 }) {
   return (
-    <Card style={{marginBottom: '1rem'}} className="shadow border-light-subtle">
+    <Card style={{ marginBottom: '1rem' }} className="shadow border-light-subtle">
       <Card.Body>
         <Card.Text>{note.content}</Card.Text>
       </Card.Body>
@@ -19,7 +19,7 @@ export function NoteCard({id, note, deleteNoteHandler}: {
           <Dropdown.Menu>
             <Dropdown.Item
               href="#"
-              onClick={() => deleteNoteHandler(id)}
+              onClick={() => { deleteNoteHandler(id) }}
             >
               Delete
             </Dropdown.Item>
@@ -27,5 +27,5 @@ export function NoteCard({id, note, deleteNoteHandler}: {
         </Dropdown>
       </Card.Footer>
     </Card>
-  );
+  )
 }
