@@ -76,6 +76,10 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+
+    .enableEslintPlugin(options => {
+      options.extensions = ['js', 'jsx', 'ts', 'tsx'];
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
